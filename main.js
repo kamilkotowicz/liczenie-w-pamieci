@@ -820,14 +820,6 @@ function generuj_potegowanie() {
     else podstawa = losuj(dl_podst);
     if (!wykladnik) wykladnik = losuj_wykladnik(podstawa);
     wynik = Math.pow(podstawa, wykladnik);
-    //TEST
-    while (wynik < 100) {
-        if (dl_podst > 1) podstawa = losuj_nietrywialne(dl_podst);
-        else podstawa = losuj(dl_podst);
-        if (!wykladnik) wykladnik = losuj_wykladnik(podstawa);
-        wynik = Math.pow(podstawa, wykladnik);
-    }
-    //
     wyswietl_dzialanie([podstawa + '^' + wykladnik]);
     var znikanie = document.getElementById('czy_znika').value;
     if (znikanie == 'tak') oblicz_czas_i_ukryj_dzialanie(dl_podst);
