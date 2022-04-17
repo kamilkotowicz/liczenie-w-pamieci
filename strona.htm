@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Liczenie w pamiêci</title>
+    <style>
+        .dzialanie {
+            display: none;
+            font-size: 2em;
+            font-weight: bolder;
+            text-align: right;
+        }
+
+        #dzialania {
+            border-bottom: 5px solid;
+            text-align: right;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        body {
+            background-color: white;
+            color: green;
+        }
+
+        #statystyki td {
+            border: 2px solid;
+        }
+
+        #statystyki {
+            display: none;
+        }
+
+        #wylacz_statystyki {
+            display: none;
+        }
+
+        #ukryj_statystyki {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td><input type="button" id="wlacz_statystyki" value="wlacz statystyki" /></td>
+            <td><input type="button" id="wylacz_statystyki" value="wylacz statystyki" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="wyswietl_statystyki" value="wyswietl statystyki" /></td>
+            <td><input type="button" id="ukryj_statystyki" value="ukryj statystyki" /></td>
+        </tr>
+    </table>
+    <table id="statystyki">
+        <tr>
+            <td>Najlepszy czas</td>
+            <td id="najlepszy_czas">?</td>
+        </tr>
+        <tr>
+            <td>Najgorszy czas</td>
+            <td id="najgorszy_czas">?</td>
+        </tr>
+        <tr>
+            <td>Sredni czas</td>
+            <td id="sredni_czas">?</td>
+        </tr>
+        <tr>
+            <td>Skutecznosc</td>
+            <td id="procent_poprawnych">?</td>
+        </tr>
+        <tr>
+            <td>Poprawnie rozwiazane zadania</td>
+            <td id="liczba_poprawnych">?</td>
+        </tr>
+        <tr>
+            <td>Wszystkie zadania</td>
+            <td id="liczba_wszystkich">?</td>
+        </tr>
+    </table>
+    <table id="ustawienia">
+        <tr>
+            <td>Kategoria</td>
+            <td>
+                <select id="tryb">
+                    <option value="dod">Flash anzan</option>
+                    <option value="dod_ode">Dodawanie i odejmowanie</option>
+                    <option value="multi">Mno¿enie</option>
+                    <option value="multi3">Mno¿enie 3 liczb</option>
+                    <option value="dziel">Dzielenie</option>
+                    <option value="pot">Potêgi</option>
+                    <option value="pierw">Pierwiastki</option>
+                    <option value="logs">Logarytmy</option>
+                    <option value="fakt">Faktoryzacja</option>
+                    <!--<option value="tryg">Funkcje trygonometryczne</option>-->
+                    <option value="kal">Kalendarz</option>
+                    <option value="ile_sek">Ile sekund minelo</option>
+                    <option value="suma4kw">Suma 4 kwadratow</option>
+                    <option value="kwad_szes">Kwadraty i szesciany (inne)</option>
+                    <!--<option value="test">TESTOWA</option>-->
+                </select>
+            </td>
+        </tr>
+        <tr class="dod">
+            <td>Czas znikania(ms)</td>
+            <td>
+                <input type="text" id="dod_czas_znikania" value="1000" />
+            </td>
+        </tr>
+        <tr class="dod_ode">
+            <td>Tryb</td>
+            <td>
+                <select id="dod_ode_tryb">
+                    <option value="a+b+c">Dodawanie</option>
+                    <option value="a-b-c">Odejmowanie</option>
+                    <option value="a+b-c">Naprzemian dodawanie z odejmowaniem</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="multi">
+            <td>Typ</td>
+            <td>
+                <select id="multi_typ">
+                    <option value="1x1">1x1</option>
+                    <option value="2x1">2x1</option>
+                    <option value="3x1">3x1</option>
+                    <option value="4x1">4x1</option>
+                    <option value="5x1">5x1</option>
+                    <option value="6x1">6x1</option>
+                    <option value="7x1">7x1</option>
+                    <option value="8x1">8x1</option>
+                    <option value="2x2">2x2</option>
+                    <option value="3x2">3x2</option>
+                    <option value="4x2">4x2</option>
+                    <option value="5x2">5x2</option>
+                    <option value="3x3">3x3</option>
+                    <option value="4x4">4x4</option>
+                    <option value="5x5">5x5</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="multi3">
+            <td>Typ</td>
+            <td>
+                <select id="multi3_typ">
+                    <option value="1x1x1">1x1x1</option>
+                    <option value="2x1x1">2x1x1</option>
+                    <option value="2x2x1">2x2x1</option>
+                    <option value="2x2x2">2x2x2</option>
+                    <option value="3x2x1">3x2x1</option>
+                    <option value="3x2x2">3x2x2</option>
+                    <option value="3x3x2">3x3x2</option>
+                    <option value="3x3x3">3x3x3</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="dziel">
+            <td>Typ</td>
+            <td>
+                <select id="dziel_typ">
+                    <option value="1/1">1/1</option>
+                    <option value="2/1">2/1</option>
+                    <option value="3/1">3/1</option>
+                    <option value="4/1">4/1</option>
+                    <option value="5/1">5/1</option>
+                    <option value="6/1">6/1</option>
+                    <option value="7/1">7/1</option>
+                    <option value="8/1">8/1</option>
+                    <option value="3/2">3/2</option>
+                    <option value="4/2">4/2</option>
+                    <option value="5/2">5/2</option>
+                    <option value="6/2">6/2</option>
+                    <option value="6/3">6/3</option>
+                    <option value="8/4">8/4</option>
+                    <option value="10/5">10/5</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="dziel">
+            <td>Tryb</td>
+            <td>
+                <select id="dziel_tryb">
+                    <option value="calk">ca³kowity wynik</option>
+                    <option value="dol">zaokr¹glenie w dó³ do ca³kowitej</option>
+                    <option value="reszta">reszta z dzielenia</option>
+                    <option value="mniejsze">ca³kowity krótki wynik</option>
+                    <option value="wieksze">ca³kowity d³ugi wynik</option>
+                    <option value="okrdok">okreœlona dok³adnoœæ, krótki wynik</option>
+                    <option value="okrdokw">okreœlona dok³adnoœæ, d³ugi wynik</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="pot">
+            <td>Typ</td>
+            <td>
+                <select id="pot_typ">
+                    <option value="1^2">1^2</option>
+                    <option value="2^2">2^2</option>
+                    <option value="3^2">3^2</option>
+                    <option value="4^2">4^2</option>
+                    <option value="1^3">1^3</option>
+                    <option value="2^3">2^3</option>
+                    <option value="3^3">3^3</option>
+                    <option value="1^n">1^n</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="pierw">
+            <td>Stopieñ</td>
+            <td>
+                <input type="text" id="pierw_stopien" value="2" />
+            </td>
+        </tr>
+        <tr class="pierw">
+            <td>Ca³kowite</td>
+            <td>
+                <select id="pierw_czy_calkowite">
+                    <option value="nie">nie</option>
+                    <option value="tak">tak</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="logs">
+            <td>Typ</td>
+            <td>
+                <select id="logs_typ">
+                    <option value="log">logarytm</option>
+                    <option value="10^x">10^x</option>
+                    <option value="a^b">a^b</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="logs">
+            <td>[Liczba cyfr drugiej liczby]</td>
+            <td>
+                <input type="text" value="6" id="liczba_cyfr2" />
+            </td>
+        </tr>
+        <tr class="fakt">
+            <td>Trudnosc</td>
+            <td>
+                <select id="fakt_stopien_trudnosci">
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                    <option value="2">3</option>
+                    <option value="3">4</option>
+                    <option value="4">5</option>
+                    <option value="5">6</option>
+                    <option value="6">7</option>
+                    <option value="7">8</option>
+                    <option value="8">9</option>
+                    <option value="9">10</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="tryg">
+            <td>Typ</td>
+            <td>
+                <select id="tryg_typ">
+                    <option value="sin">sin</option>
+                    <option value="cos">cos</option>
+                    <option value="tan">tan</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="kal">
+            <td>Tryb</td>
+            <td>
+                <select id="kal_tryb">
+                    <option value="dzien_tygodnia">dzien tygodnia</option>
+                    <option value="kod_roku">kod roku</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="ile_sek">
+            <td>Trudnosc</td>
+            <td>
+                <select id="ile_sek_stopien_trudnosci">
+                    <option value="1">1 (1s - 59s)</option>
+                    <option value="2">2 (1min - 5 min)</option>
+                    <option value="3">3 (5min - 25 min)</option>
+                    <option value="4">4 (25min - 2h)</option>
+                    <option value="5">5 (2h - 10h)</option>
+                    <option value="6">6 (10h - 2d)</option>
+                    <option value="7">7 (2d - 11d)</option>
+                    <option value="8">8 (11d - 2mies)</option>
+                    <option value="9">9 (2mies - 9mies)</option>
+                    <option value="10">10 (9mies - 4lata)</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="kwad_szes">
+            <td>Tryb</td>
+            <td>
+                <select id="kwad_szes_tryb">
+                    <option value="nast_kwad">Nastepny kwadrat</option>
+                    <option value="nast_szes">Nastepny szescian</option>
+                    <option value="poprz_kwad">Poprzedni kwadrat</option>
+                    <option value="poprz_szes">Poprzedni szescian</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="dod dod_ode">
+            <td>Ile liczb</td>
+            <td>
+                <input type="text" id="liczba_liczb" value="10" />
+            </td>
+        </tr>
+        <tr class="dod pierw logs fakt tryg dod_ode suma4kw kwad_szes">
+            <td>Liczba cyfr</td>
+            <td>
+                <input type="text" value="6" id="liczba_cyfr" />
+            </td>
+        </tr>
+        <tr class="dziel pierw logs tryg">
+            <td>Dok³adnoœæ</td>
+            <td>
+                <input type="text" value="4" id="dokladnosc" />
+            </td>
+        </tr>
+        <tr class="multi dziel pot pierw logs fakt tryg kal dod_ode suma4kw kwad_szes multi3 ile_sek">
+            <td>Znikanie</td>
+            <td>
+                <select id="czy_znika">
+                    <option value="nie">nie</option>
+                    <option value="tak">tak</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <h1 id="stoper">00:00,00</h1>
+    <br />
+    <input type="button" id="start" value="start" />
+    <table id="dzialania">
+        <tr>
+            <td id="liczba1" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba2" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba3" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba4" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba5" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba6" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba7" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba8" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba9" class="dzialanie"></td>
+        </tr>
+        <tr>
+            <td id="liczba10" class="dzialanie"></td>
+        </tr>
+    </table>
+    <h1 id="odpowiedz"></h1>
+    <script src="main.js"></script>
+    <script src="symulator.js"></script>
+</body>
+</html>
