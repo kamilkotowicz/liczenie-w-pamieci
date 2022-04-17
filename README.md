@@ -1,5 +1,6 @@
 # liczenie-w-pamieci
 
+Program pisany i rozbudowywany w latach 2018-2022 
 
 main.js
 ---------------------------------------------------
